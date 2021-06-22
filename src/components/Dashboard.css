@@ -1,0 +1,15 @@
+.Dashboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.cardContainer {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.qualityButton {
+    width: 90px;
+}

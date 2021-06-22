@@ -1,0 +1,10 @@
+.loginBox {
+    display: flex;
+    flex-direction: column;
+    margin: 40px auto 0;
+    width: 400px;
+}
+
+.MuiTextField-root {
+    margin-bottom: 15px;
+}
