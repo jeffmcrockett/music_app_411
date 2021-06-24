@@ -13,28 +13,36 @@ import './Dashboard.css';
 
 class Dashboard extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            online : false,
-            volume : 50,
-            quality : 'medium'
+            online: false,
+            volume: 80,
+            quality: 'medium'
         }
     }
 
     onClickHandler = (event) => {
-
+        this.setState({ online : event.target.value })
     }
 
-    handleVolumeChange = (event) => {
+    handleVolumeChange = (event, volume) => {
+        this.setState({ volume })
+    }
 
+    handleDragStop = () => {
+        this.props.update(this.state.volume)
     }
 
     handleQualityChange = (event) => {
-
+        this.setState({ quality : event.target.value })
     }
-    
+
     render() {
+        let warningText = '';
+        if (this.state.volume >= 80) {
+            warningText = "Warning! High volume can damage hearing"
+        }
         return (
             <div className="Dashboard">
                 <Card className="cardContainer">
@@ -42,14 +50,14 @@ class Dashboard extends Component {
                         <Typography variant="h5">Online Mode</Typography>
                         <Typography variant="body2">App connected to the internet?</Typography>
                     </CardContent>
-                    <Switch onClick={this.onClickHandler} />
+                    <Switch onClick={this.onClickHandler} value={this.state.online} />
                 </Card>
                 <Card className="cardContainer">
                     <CardContent>
                         <Typography variant="h5">Master Volume</Typography>
                         <Typography variant="body2">Overrides all sound settings.</Typography>
                     </CardContent>
-                    <Slider onChange={this.handleVolumeChange} defaultValue={50} valueLabelDisplay="auto" step={10} />
+                    <Slider onChange={this.handleVolumeChange} onDragStop={this.handleDragStop} defaultValue={50} valueLabelDisplay="auto" step={10} min={0} max={100} />
                 </Card>
                 <Card className="cardContainer">
                     <CardContent>
@@ -58,13 +66,14 @@ class Dashboard extends Component {
                     </CardContent>
                     <FormControl variant="filled">
                         <InputLabel className="inputLabel">Quality</InputLabel>
-                        <Select className="qualityButton" onChange={this.handleQualityChange}>
-                            <MenuItem value={10}>Low</MenuItem>
-                            <MenuItem value={20}>Medium</MenuItem>
-                            <MenuItem value={30}>High</MenuItem>
+                        <Select className="qualityButton" onChange={this.handleQualityChange} value={this.state.quality}>
+                            <MenuItem value={'Low'}>Low</MenuItem>
+                            <MenuItem value={'Medium'}>Medium</MenuItem>
+                            <MenuItem value={'High'}>High</MenuItem>
                         </Select>
                     </FormControl>
                 </Card>
+                {warningText}
             </div>
         )
     }
